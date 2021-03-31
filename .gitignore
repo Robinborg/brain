@@ -1,0 +1,17 @@
+brain_env/
+
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.7z
+*.dmg
+*.iso
+*.gz
+*.jar
+*.rar
+*.tar
+*.zip
+
