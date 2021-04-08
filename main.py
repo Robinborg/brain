@@ -16,18 +16,31 @@ def link(insert_link):
     soup = BeautifulSoup(website.content, 'html.parser')
     print(soup.prettify())
 def information_out_of_site(link):
+    pass
+
+
+link('https://xgboost.ai')
     '''what information to search for?'''
     pass
 
 def podcast(insert_podcast):
     '''save podcast and ask for timestamps'''
 
-def idea(inser_idea):
+def idea():
     '''take idea, write idea under right category and write to file'''
+    write_idea = input("Thoughts: ")
 
-def book(inser_book):
+def book(insert_book):
     '''take book, ask for category, ask for input about book and write to file under right category'''
 class Brain:
     '''structure the writing to file and loops to keep getting input'''
+    while True:
+        idea()
+        link()
+        podcast()
+        book()
+        break
 
-link('https://xgboost.ai')
+
+
+
