@@ -1,37 +1,46 @@
-import pandas as pd
-import matplotlib as mpl
+'''Program that stores information and retrieves information'''
 from bs4 import BeautifulSoup
 import requests
+from sqlalchemy import create_engine
 
-'''The goal of this program is to create a secondary brain. This program will
-function for notetaking, saving links and fetching the important information,
-saving the data in a database which can be formed to the users liking and
-plotting the information for further learning'''
-#How should I represent the data?
-#Binarytree, Graph, or what?
+class websearcher:
+    def __init__(self):
+        '''storage'''
+        self.stored_websites = []
+        self.website_links = []
+        self.stored_text_website = []
 
-def link(insert_link):
-    '''open link and open with bs4'''
-    website = requests.get(insert_link)
-    soup = BeautifulSoup(website.content, 'html.parser')
-    print(soup.prettify())
-def information_out_of_site(link):
-    pass
+    def website_opener(self, insert_link):
+        '''get website and html of said site'''
+        self.insert_link = insert_link
+        website = requests.get(insert_link)
+        soup = BeautifulSoup(website.content, 'html.parser')
+        print(soup.prettify())
+        return soup
 
-
-link('https://xgboost.ai')
-    '''what information to search for?'''
-    pass
+    def links_from_website(self.soup):
+        pass
 
 def podcast(insert_podcast):
     '''save podcast and ask for timestamps'''
 
-def idea():
-    '''take idea, write idea under right category and write to file'''
-    write_idea = input("Thoughts: ")
+class NoteTaking:
+    def __init__(self):
+        self.saved_ideas = []
 
-def book(insert_book):
-    '''take book, ask for category, ask for input about book and write to file under right category'''
+    def writing_ideas(self, idea):
+        self.idea = idea
+        self.saved_ideas.append(idea)
+
+class Books:
+    def __init__(self):
+        self.stored_books = []
+
+    def noted_book(self, book):
+        self.book = book
+        self.stored_books.append(book)
+
+
 class Brain:
     '''structure the writing to file and loops to keep getting input'''
     while True:
@@ -43,4 +52,6 @@ class Brain:
 
 
 
+#SQL 
+engine = create_engine('sqlite:///noted_ideas.db')
 
