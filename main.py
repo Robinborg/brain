@@ -1,57 +1,66 @@
 '''Program that stores information and retrieves information'''
 from bs4 import BeautifulSoup
 import requests
-from sqlalchemy import create_engine
+from datetime import datetime, date
+from mongoengine import connect, Document, StringField
 
+class BaseTemplateMongo(Document):
+    current_date = StringField(required=True, max_length=12)
+    take_note = StringField(requied=True)
+
+    
 class websearcher:
     def __init__(self):
-        '''storage'''
-        self.stored_websites = []
-        self.website_links = []
-        self.stored_text_website = []
-
-    def website_opener(self, insert_link):
-        '''get website and html of said site'''
-        self.insert_link = insert_link
-        website = requests.get(insert_link)
-        soup = BeautifulSoup(website.content, 'html.parser')
-        print(soup.prettify())
-        return soup
-
-    def links_from_website(self.soup):
         pass
 
-def podcast(insert_podcast):
-    '''save podcast and ask for timestamps'''
+    def website_opener(self, insert_link: str):
+        '''get website and html of said site'''
+        self.insert_link = insert_link
+        self.website = requests.get(insert_link)
+        self.soup = BeautifulSoup(website.content, 'html.parser')
+        print(soup.prettify())
+
+    def links_from_website(self):
+        all_links = [a["href"]
+                     for a in self.soup('a')
+                     if a.hast_attr("href")]
+
 
 class NoteTaking:
     def __init__(self):
-        self.saved_ideas = []
+        connect(db="notes", host="localhost", port=27017)
 
-    def writing_ideas(self, idea):
+    def writing_ideas(self, idea: str):
+        self.today = datetime.today().strftime("%d/%m/%Y")
         self.idea = idea
-        self.saved_ideas.append(idea)
+        self.start_ideas = BaseTemplateMongo(
+                current_date = self.today,
+                take_note = self.idea
+                )
+        self.start_ideas.save()
+
+    def show_all_ideas(self):
+        pass
 
 class Books:
     def __init__(self):
-        self.stored_books = []
+        self.stored_books = {}
 
     def noted_book(self, book):
         self.book = book
-        self.stored_books.append(book)
+        self.date_today = datetime.today().strftime("%d-%m-%Y")
+        self.stored_books[self.date_today] = self.book
 
 
-class Brain:
-    '''structure the writing to file and loops to keep getting input'''
-    while True:
-        idea()
-        link()
-        podcast()
-        book()
-        break
+#my_second_note = NoteTaking()
+#my_second_note.writing_ideas("Does the mongo server get this")
 
+#for doc in BaseTemplateMongo.objects:
+#    print(doc.take_note)
 
+client = MongoClient()
+col = client.mydb.test
 
-#SQL 
-engine = create_engine('sqlite:///noted_ideas.db')
+result = col.insert_one({'x':1})
+result.insert_id
 
