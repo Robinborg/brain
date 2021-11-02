@@ -1,26 +1,60 @@
-'''Program that stores information and retrieves information'''
 from bs4 import BeautifulSoup
 import requests
-from datetime import datetime, date
-#from mongoengine import connect, Document, StringField
+from datetime import datetime
 from pymongo import MongoClient
-import pprint
+from typing import Dict
 
+date_today = datetime.now().strftime("%d/%m/%Y")
 
-#class BaseTemplateMongo(Document):
-#    current_date = StringField(required=True, max_length=12)
-#    take_note = StringField(requied=True)
+def connect_to_database(
+        notes: bool = False, websites: bool=False,
+        books: bool = False, podcasts: bool = False):
+    """Connect to the correct database"""
+    client = MongoClient(host = "localhost", port = 27017)
+    if notes:
+        db = client.notes
+        my_notes = db.my_notes
+        return my_notes
+    elif websites:
+        db = client.websites
+        my_websites = db.my_websites
+        return my_websites
+    elif books:
+        db = client.books
+        my_books = db.my_books
+        return my_books
+    elif podcasts:
+        db = client.podcasts
+        my_podcasts = db.my_podcasts
+        return my_podcasts
 
-    
-class websearcher:
+def inserter(write: str = None, review: str = None) -> Dict:
+    """Make the dictionary to be inserted into database"""
+    assert write, "You need to write a note"
+    if not review:
+        insert_only_note = {
+                "date": date_today,
+                "Note": write
+                }
+        return insert_only_note
+    else:
+        insert_both = {
+                "date": date_today,
+                "Note": write,
+                "Review": review
+                }
+        return insert_both
+
+class WebSearcher:
+    """ stores and searches web sites """
     def __init__(self):
-        pass
+        self.website_connection = connect_to_database(websites=True)
 
     def website_opener(self, insert_link: str):
         '''get website and html of said site'''
         self.insert_link = insert_link
-        self.website = requests.get(insert_link)
-        self.soup = BeautifulSoup(website.content, 'html.parser')
+        website = requests.get(insert_link)
+        soup = BeautifulSoup(website.content, 'html.parser')
         print(soup.prettify())
 
     def links_from_website(self):
@@ -28,74 +62,76 @@ class websearcher:
                      for a in self.soup('a')
                      if a.hast_attr("href")]
 
+    def websites_to_db(self, both = False):
+        """Insert website data into database"""
+        if both:
+            insert_note = input("Insert note: ")
+            insert_review = input("Insert review: ")
+            to_be_inserted = inserter(write=insert_note, review=insert_review)
+            inserted = self.website_connection.insert_one(to_be_inserted)
+            print(f"One insertion: {inserted.inserted_id}")
+
+        else:
+            insert_note = input("Insert note: ")
+            to_be_inserted = inserter(write=insert_note)
+            inserted = self.website_connection.insert_one(to_be_inserted)
+            print(f"One insertion: {inserted.inserted_id}")
+            self.website_connection.close()
 
 class Notes:
+    """ note taking program that stores information in mongodb """
     def __init__(self):
         """ start client and switch over to the right database and collection """
-
-        self.client = MongoClient(host="localhost", port=27017)
-        db = self.client.notes
-        self.my_notes= db.my_notes
+        self.notes_connection = connect_to_database(notes=True)
                 
-    def insert_a_new_note(self, write_note: str):
-        assert write_note, "Write a note"
-
-        self.write_note = write_note
-
-        insert_note = {
-                "date": datetime.now().strftime("%d/%m/%Y"),
-                "Note": self.write_note
-                }
-        self.my_notes.insert_one(insert_note)
-        self.client.close()
+    def note_to_db(self):
+        insert_note = input("Insert note: ")
+        to_be_inserted = inserter(insert_note)
+        inserted = self.notes_connection.insert_one(to_be_inserted)
+        print(f"One insertion: {inserted.inserted_id}")
+        self.notes_connection.close()
 
 class Books:
     def __init__(self):
         """ start client and switch over to the right database and collection """
+        self.books_connection = connect_to_database(books=True)
 
-        self.client = MongoClient(host="localhost", port=27017)
-        db = self.client.books
-        self.my_books= db.my_books
-                
-    def insert_a_new_book(self, write_book: str, review_of_book: str):
-        assert write_book, "Write a book"
+    def book_to_db(self, both = False):
+        """Insert website data into database"""
+        if both:
+            insert_note = input("Insert note: ")
+            insert_review = input("Insert review: ")
+            to_be_inserted = inserter(write=insert_note, review=insert_review)
+            inserted = self.books_connection.insert_one(to_be_inserted)
+            print(f"One insertion: {inserted.inserted_id}")
+            self.books_conenction.close()
 
-        self.write_book = write_book 
-        self.review_of_book = review_of_book
-
-        insert_book = {
-                "date": datetime.now().strftime("%d/%m/%Y"),
-                "Books name": self.write_book,
-                "The books review": self.review_of_book
-                }
-        self.my_books.insert_one(insert_book)
-
-        print(f"inserted: {self.my_books.inserted_id}")
-        self.client.close()
+        else:
+            insert_note = input("Insert note: ")
+            to_be_inserted = inserter(write=insert_note)
+            inserted = self.books_connection.insert_one(to_be_inserted)
+            print(f"One insertion: {inserted.inserted_id}")
+            self.website_connection.close()
 
 class Podcasts:
     def __init__(self):
         """ start client and switch over to the right database and collection """
+        self.podcasts_connection = connect_to_database(podcasts=True)
 
-        self.client = MongoClient(host="localhost", port=27017)
-        db = self.client.podcasts
-        self.my_podcasts = db.my_podcasts
-                
-    def insert_a_new_podcast(self, write_podcast: str, review_of_podcast: str = None):
-        assert write_podcast, "Write a podcast."
+    def podcast_to_db(self, both = False):
+        """Insert website data into database"""
+        if both:
+            insert_note = input("Insert note: ")
+            insert_review = input("Insert review: ")
+            to_be_inserted = inserter(write=insert_note, review=insert_review)
+            inserted = self.podcasts_connection.insert_one(to_be_inserted)
+            print(f"One insertion: {inserted.inserted_id}")
 
-        self.write_podcast = write_podcast
-        self.review_of_podcast = review_of_podcast
-
-        insert_podcast = {
-                "date": datetime.now().strftime("%d/%m/%Y"),
-                "Podcasts name": self.write_podcast,
-                "Review of podcast": self.review_of_podcast
-                }
-        self.my_podcasts.insert_one(insert_podcast)
-
-        print(f"inserted: {self.my_podcasts.inserted_id}")
-        self.client.close()
+        else:
+            insert_note = input("Insert note: ")
+            to_be_inserted = inserter(write=insert_note)
+            inserted = self.podcasts_connection.insert_one(to_be_inserted)
+            print(f"One insertion: {inserted.inserted_id}")
 
 
 #for doc in my_thoughts.find():
@@ -105,17 +141,13 @@ class Podcasts:
 #    db = client.brain
 #    for doc in db.ideas.find():
 #        pprint.pprint(doc)
-#
 
 using_podcasts = Podcasts()
-using_podcasts.insert_a_new_podcast("Lex Friedman episode 234", "This was an episode about Stephen Wolframs theory")
+using_podcasts.podcast_to_db(both=True)
 
-using_notes = Notes()
-using_notes.insert_a_new_note("How are you?")
-
-using_books = Books()
-using_books.insert_a_new_book("Maths on the back of an envelope", "Extremely useful book for doing arthimetics!")
-
+#using_notes = Notes()
+#using_books = Books()
+#
 
 
 
