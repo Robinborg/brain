@@ -76,7 +76,6 @@ class WebSearcher:
             to_be_inserted = inserter(write=insert_note)
             inserted = self.website_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
-            self.website_connection.close()
 
 class Notes:
     """ note taking program that stores information in mongodb """
@@ -89,7 +88,6 @@ class Notes:
         to_be_inserted = inserter(insert_note)
         inserted = self.notes_connection.insert_one(to_be_inserted)
         print(f"One insertion: {inserted.inserted_id}")
-        self.notes_connection.close()
 
 class Books:
     def __init__(self):
@@ -104,14 +102,12 @@ class Books:
             to_be_inserted = inserter(write=insert_note, review=insert_review)
             inserted = self.books_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
-            self.books_conenction.close()
 
         else:
             insert_note = input("Insert note: ")
             to_be_inserted = inserter(write=insert_note)
             inserted = self.books_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
-            self.website_connection.close()
 
 class Podcasts:
     def __init__(self):

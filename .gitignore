@@ -1,5 +1,4 @@
-brain_env/
-
+learning_env/
 *.com
 *.class
 *.dll
@@ -14,4 +13,4 @@ brain_env/
 *.rar
 *.tar
 *.zip
-
+.DS_Store
