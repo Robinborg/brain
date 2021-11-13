@@ -14,8 +14,7 @@ The second part of the program is for storing and searching websites. There are 
     
     websites = WebSearcher()
     websites.website_opener(insert_link='your_website')
-    websites.links_from_website()
-    websites.websites_db(both=True)
+    websites.websites_db(insert_all_websites=True, both=True)
 
 The third part is for storing books and book reviews. Again a simple program that prompts the user to enter the book and the review, which is saved in the database.
 
