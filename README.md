@@ -6,24 +6,27 @@ The idea was that he had created a “second-brain”, where he stored all his i
 The first part of the program is just for notes. A simple program that prompts the user for input and then stores that information. 
     
     add_notes = Notes()
-    add_notes.insert_a_new_note("Your_note_here")
+    add_notes.notes_db()
     
 
 
 The second part of the program is for storing and searching websites. There are many times that I come across a very interesting website but then forget it or don’t write it down. Other times there is only a specific part of the website I want to remember. That is why I created a web scraper that would search keywords, emails or other relevant information that the user asks for.
-
-
+    
+    websites = WebSearcher()
+    websites.website_opener(insert_link='your_website')
+    websites.links_from_website()
+    websites.websites_db(both=True)
 
 The third part is for storing books and book reviews. Again a simple program that prompts the user to enter the book and the review, which is saved in the database.
 
     add_books = Books()
-    add_books.insert_a_new_book("Your_book_here", "Your_review_here")
+    add_books.books_db(both=True)
 
 The fourth part is for storing podcasts. As of now, it’s just to store the name of the podcast and a note why it was stored. Later on the goal is to have an algorithm that searches for a specific part of the podcast with speech recognition and stores that in a written form.
 The fifth and final part would be the program that is able to modify the database and the storage structure of the database.
 
-    add_podcast = Podcasts()
-    add_podcast.insert_a_new_podcast("Your_podcast_here", "Your_review_here")
+    add_podcast = Podcast()
+    add_podcast.podcast_db(both=True)
     
 
 This way I will never forget a podcast where I get great ideas from.
