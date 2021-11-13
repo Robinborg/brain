@@ -58,22 +58,25 @@ class WebSearcher:
         print(soup.prettify())
 
     def links_from_website(self):
-        all_links = [a["href"]
+        self.all_links = [a["href"]
                      for a in self.soup('a')
                      if a.hast_attr("href")]
+        
 
-    def websites_db(self, both = False):
+    def websites_db(self, insert_all_websites: Bool = False, both: Bool = False):
         """Insert website data into database"""
         if both:
             insert_note = input("Insert note: ")
             insert_review = input("Insert review: ")
             to_be_inserted = inserter(write=insert_note, review=insert_review)
+            to_be_inserted['All links from website: '] = self.all_links
             inserted = self.website_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
 
         else:
             insert_note = input("Insert note: ")
             to_be_inserted = inserter(write=insert_note)
+            to_be_inserted['All links from website: '] = self.all_links
             inserted = self.website_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
 
