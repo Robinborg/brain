@@ -6,7 +6,7 @@ from typing import Dict
 
 date_today = datetime.now().strftime("%d/%m/%Y")
 
-def connect_to_database(
+def connect_database(
         notes: bool = False, websites: bool=False,
         books: bool = False, podcasts: bool = False):
     """Connect to the correct database"""
@@ -48,7 +48,7 @@ def inserter(write: str = None, review: str = None) -> Dict:
 class WebSearcher:
     """ stores and searches web sites """
     def __init__(self):
-        self.website_connection = connect_to_database(websites=True)
+        self.website_connection = connect_database(websites=True)
 
     def website_opener(self, insert_link: str):
         '''get website and html of said site'''
@@ -62,7 +62,7 @@ class WebSearcher:
                      for a in self.soup('a')
                      if a.hast_attr("href")]
 
-    def websites_to_db(self, both = False):
+    def websites_db(self, both = False):
         """Insert website data into database"""
         if both:
             insert_note = input("Insert note: ")
@@ -81,7 +81,7 @@ class Notes:
     """ note taking program that stores information in mongodb """
     def __init__(self):
         """ start client and switch over to the right database and collection """
-        self.notes_connection = connect_to_database(notes=True)
+        self.notes_connection = connect_database(notes=True)
                 
     def note_to_db(self):
         insert_note = input("Insert note: ")
@@ -92,29 +92,32 @@ class Notes:
 class Books:
     def __init__(self):
         """ start client and switch over to the right database and collection """
-        self.books_connection = connect_to_database(books=True)
+        self.books_connection = connect_database(books=True)
 
-    def book_to_db(self, both = False):
+    def book_db(self, both = False):
         """Insert website data into database"""
         if both:
             insert_note = input("Insert note: ")
             insert_review = input("Insert review: ")
+            insert_pages = input("How many pages: ")
             to_be_inserted = inserter(write=insert_note, review=insert_review)
+            to_be_inserted['Pages: '] = insert_pages
             inserted = self.books_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
-
         else:
             insert_note = input("Insert note: ")
+            insert_page = input("How many pages: ")
             to_be_inserted = inserter(write=insert_note)
+            to_be_inserted['Pages: '] = insert_page
             inserted = self.books_connection.insert_one(to_be_inserted)
             print(f"One insertion: {inserted.inserted_id}")
 
 class Podcasts:
     def __init__(self):
         """ start client and switch over to the right database and collection """
-        self.podcasts_connection = connect_to_database(podcasts=True)
+        self.podcasts_connection = connect_database(podcasts=True)
 
-    def podcast_to_db(self, both = False):
+    def podcast_db(self, both = False):
         """Insert website data into database"""
         if both:
             insert_note = input("Insert note: ")
@@ -138,12 +141,13 @@ class Podcasts:
 #    for doc in db.ideas.find():
 #        pprint.pprint(doc)
 
-using_podcasts = Podcasts()
-using_podcasts.podcast_to_db(both=True)
+#using_podcasts = Podcasts()
+#using_podcasts.podcast_db(both=True)
 
 #using_notes = Notes()
-#using_books = Books()
-#
+using_books = Books()
+using_books.book_db(both=True)
+
 
 
 
