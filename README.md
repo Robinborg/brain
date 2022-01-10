@@ -1,5 +1,5 @@
 # Digital brain
-A program to keep track of your customers, products and print invoices in pdf format.
+A program to keep track of your information.
 ## Description
 The program stores notes, podcasts, books and websites.
 The websites module can also do basic webscraping.
