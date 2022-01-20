@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import requests
 from typing import List
 
-class WebSearch:
+class WebSite:
     def __init__(self):
         self.website_connection = connect_database(websites = True)
 

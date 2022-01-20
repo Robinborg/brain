@@ -13,7 +13,7 @@ class Podcasts:
 
     def insert_database(self, enter_mode: int):
         if enter_mode == 1:
-            podcast_name = input("Enter name:\n")
+            podcast_name = input("Enter podcast name:\n")
             podcast_review = input("Enter review:\n")
             insert_podcast = insert_db(write = podcast_name,
                                        review = podcast_review)

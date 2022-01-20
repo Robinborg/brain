@@ -1,29 +1,31 @@
-from bs4 import BeautifulSoup
-import requests
+import sys
 from pymongo import MongoClient
-from database.connection import connect_database
-from utils.insert_database import insert_db
 from notes.note import Notes
-from websites.website import WebSearch
+from websites.website import WebSite
 from podcasts.podcast import Podcasts
 from books.book import Books
+import pprint
+from utils.print_data import show_notes
+
+show_notes()
 
 
 
-#for doc in my_thoughts.find():
-#    pprint.pprint(doc)
-#with MongoClient(host="localhost", port=27017) as client:
-#    db = client.brain
-#    for doc in db.ideas.find():
-#        pprint.pprint(doc)
+def main(sysargv):
+    if sysargv == '-n':
+        enter_note = Notes()
+        enter_note.insert_database()
+    if sysargv == '-w':
+        search_website = WebSite()
+        search_website.insert_database(2)
+    if sysargv == '-p':
+        enter_podcast = Podcasts()
+        enter_podcast.insert_database(2)
+    if sysargv == '-b':
+        enter_book = Books()
+        enter_book.insert_database(2)
 
 if __name__ == "__main__":
-    enter_note = Notes()
-    enter_note.insert_database()
-    search_website = WebSearch()
-    search_website.insert_database(2)
-    enter_podcast = Podcasts()
-    enter_podcast.insert_database(2)
-    enter_book = Books()
-    enter_book.insert_database(2)
+    args = sys.argv[1]
+    main(args)
 
