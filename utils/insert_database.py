@@ -9,13 +9,15 @@ def insert_db(write: str = None,
     if not review:
         insert_one = {
             "date": date_today,
-            "note": write}
+            "note": write
+        }
         return insert_one
     else:
         insert_both = {
             "date": date_today,
             "note": write,
-            "review": review}
+            "review": review
+        }
         return insert_both
 
 
