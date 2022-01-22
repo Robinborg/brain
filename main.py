@@ -9,7 +9,8 @@ from utils.print_data import show_whole_notes_collection,\
     show_whole_websites_collection, show_whole_books_collection,\
     show_whole_podcasts_collection
 
-def main(sysargv):
+def main(sysargv: str) -> None:
+    #for entering data to db
     if sysargv == '-n' or sysargv == "--note":
         enter_note = Notes()
         enter_note.insert_database()
@@ -22,6 +23,8 @@ def main(sysargv):
     if sysargv == '-b' or sysargv == "--book":
         enter_book = Books()
         enter_book.insert_database()
+
+    #for showing data in db
     if sysargv == '-sn' or sysargv == "--show_notes":
         show_whole_notes_collection()
     if sysargv == '-sw' or sysargv == "--show_websites":
