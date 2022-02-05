@@ -1,5 +1,6 @@
 import sys
 from pymongo import MongoClient
+import argparse
 from notes.note import Notes
 from websites.website import WebSite
 from podcasts.podcast import Podcasts
@@ -9,33 +10,42 @@ from utils.print_data import show_whole_notes_collection,\
     show_whole_websites_collection, show_whole_books_collection,\
     show_whole_podcasts_collection
 
-def main(sysargv: str) -> None:
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--note", action = "store_true")
+    parser.add_argument("--website", action = "store_true")
+    parser.add_argument("--podcast", action = "store_true")
+    parser.add_argument("--book", action = "store_true")
+    parser.add_argument("--show_notes", action = "store_true")
+    parser.add_argument("--show_websites", action = "store_true")
+    parser.add_argument("--show_podcasts", action = "store_true")
+    parser.add_argument("--show_books", action = "store_true")
+    args = parser.parse_args()
     #for entering data to db
-    if sysargv == '-n' or sysargv == "--note":
+    if args.note:
         enter_note = Notes()
         enter_note.insert_database()
-    if sysargv == '-w' or sysargv == "--website":
-        search_website = WebSite()
-        search_website.insert_database()
-    if sysargv == '-p' or sysargv == "--podcast":
-        enter_podcast = Podcasts()
-        enter_podcast.insert_database()
-    if sysargv == '-b' or sysargv == "--book":
+    if args.website:
+       enter_website = WebSite()
+       enter_website.insert_database()
+    if args.podcast:
+       enter_podcast = Podcasts()
+       enter_podcast.insert_database()
+    if args.book:
         enter_book = Books()
         enter_book.insert_database()
 
     #for showing data in db
-    if sysargv == '-sn' or sysargv == "--show_notes":
+    if args.show_notes:
         show_whole_notes_collection()
-    if sysargv == '-sw' or sysargv == "--show_websites":
+    if args.show_websites:
         show_whole_websites_collection()
-    if sysargv == '-sb' or sysargv == "--show_books":
+    if args.show_books:
         show_whole_books_collection()
-    if sysargv == '-sp' or sysargv == "--show_podcasts":
+    if args.show_podcasts:
         show_whole_podcasts_collection()
     return True
 
 if __name__ == "__main__":
-    args = sys.argv[1]
-    main(args)
+    main()
 
