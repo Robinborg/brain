@@ -23,22 +23,19 @@ Stopping mongodb:
 ## Commands
     
     #Start prompt to enter notes
-    python3 main.py -n or python3 main.py --note 
+    python3 main.py --note 
     #Start prompt to enter website and search it for links
-    python3 main.py -w or python3 main.py --website
+    python3 main.py --website
     #Start prompt to enter podcast
-    python3 main.py -p or python3 main.py --podcast
+    python3 main.py --podcast
     #Start prompt to enter book
-    python3 main.py -b or python3 main.py --book 
+    python3 main.py --book 
     
-    #Show notes collection
-    python3 main.py -sn or python3 main.py --show_notes
-    #Show websites collection
-    python3 main.py -sw or python3 main.py --show_websites
-    #Show podcasts collection
-    python3 main.py -sp or python3 main.py --show_podcasts
-    #Show books collection
-    python3 main.py -sb or python3 main.py --show_books
+    #display data
+    python3 main.py --show_notes
+    python3 main.py --show_websites
+    python3 main.py --show_podcasts
+    python3 main.py --show_books
 ## About
 The program uses:
 
