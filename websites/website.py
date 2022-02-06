@@ -19,23 +19,21 @@ class WebSite:
         soup = BeautifulSoup(site, "html.parser")
         return soup
 
-    def text_website(self, website_bs):
+    def text_website(self, website_bs) -> List[str]:
         return website_bs.get_text()
 
-    def get_all_links(self,
-                      website_bs: BeautifulSoup)-> List[str]:
+    def get_all_links(self, website_bs: BeautifulSoup)-> List[str]:
         all_links = [a["href"]
                      for a in website_bs('a')
                      if a.has_attr("href")]
         return all_links
 
-    def insert_database(self):
-        website_name = input("Enter website:\n")
-        cleaned_website = self.open_website(website_name)
-        sweep_links = self.get_all_links(cleaned_website)
-        sweep_text = self.text_website(cleaned_website)
-        insert_website = insert_db(write=website_name,
-                                   review=sweep_links + [sweep_text])
+    def insert_database(self, website: str, links=None):
+        if links:
+            insert_website = insert_db(write=website,
+                                   review=links)
+        else:
+            insert_website = insert_db(write=website)
         push_db = self.website_connection.insert_one(insert_website)
         return print(f"Inserted one: {push_db.inserted_id}")
 
