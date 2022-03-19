@@ -1,8 +1,3 @@
-if __name__ == "__main__" and __package__ is None:
-    import sys
-    from os import path
-    path_name = path.dirname(path.abspath(__file__)) +"/.."
-    sys.path.append(path_name)
 
 from database.connection import connect_database
 from utils.insert_database import insert_db
