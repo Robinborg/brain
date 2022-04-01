@@ -1,4 +1,4 @@
-# Digital brain
+# Note taking app
 A program to keep track of your information.
 ## Description
 The program stores notes, podcasts, books and websites (the website module is able to webscrape).
@@ -16,8 +16,8 @@ Stopping mongodb:
     brew services stop mongodb-community@5.0
     
 ## Installation
-    git clone https://github.com/Robinborg/digital_brain
-    cd digital_brain
+    git clone https://github.com/Robinborg/note_taking_app
+    cd note_taking_app
     python3 -m pip install -r requirements.txt
 
 ## Commands
